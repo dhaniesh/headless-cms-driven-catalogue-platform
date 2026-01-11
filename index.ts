@@ -1,22 +1,19 @@
 import express, { Request, Response } from "express";
 import "dotenv/config"
-import { string } from "zod";
+import { catalogue_query } from "./queries";
 
 const app = express();
 const PORT = 3000;
-const contentful_base_url = `https://cdn.contentful.com/spaces/${process.env.CF_SPACE_ID}/environments/${process.env.CF_ENV_ID}/entries?`;
+const contentful_base_url = `https://graphql.contentful.com/content/v1/spaces/${process.env.CF_SPACE_ID}/environments/${process.env.CF_ENV_ID}`;
+const contentful_header = {
+    "Authorization": `Bearer ${process.env.CF_DELIVERY_API_KEY}`
+}
 
 app.get("/catalogue", async (req: Request, res: Response) => {
-    const header = {
-        "Authorization": `Bearer ${process.env.CF_DELIVERY_API_KEY}`
-    }
-    const contentful_catalogue_url = contentful_base_url + new URLSearchParams({
-        content_type: "product"
-    })
-    // res.send(contentful_catalogue_url)
-    const response = await fetch(contentful_catalogue_url, {
-        method: "GET",
-        headers: header
+    const response = await fetch(contentful_base_url, {
+        method: "POST",
+        headers: contentful_header,
+        body: JSON.stringify({query: catalogue_query})
     })
     const result = await response.json()
     res.send(result)
