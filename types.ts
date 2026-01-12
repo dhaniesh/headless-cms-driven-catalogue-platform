@@ -16,3 +16,15 @@ export const productCollectionSchema = z.object({
         })
     })
 });
+
+export const categorySchema = z.object({
+    category: z.string()
+})
+
+export const categoryCollectionSchema = z.object({
+    data: z.object({
+        categoryCollection: z.object({
+            items: z.array(categorySchema)
+        })
+    })
+});
