@@ -6,6 +6,7 @@ export const catalogue_query = `query {
             image {
                 url
             }
+            category
         }
     }
 }`

@@ -5,7 +5,8 @@ export const productSchema = z.object({
     description: z.string(),
     image: z.object({
         url: z.string()
-    })
+    }),
+    category: z.string()
 })
 
 export const productCollectionSchema = z.object({

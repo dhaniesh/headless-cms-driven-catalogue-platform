@@ -28,7 +28,8 @@ app.get("/catalogue", async (req: Request, res: Response) => {
             return {
                 title: item.title,
                 description: item.description,
-                imageUrl: item.image.url
+                imageUrl: item.image.url,
+                category: item.category
             }
         }))
 
