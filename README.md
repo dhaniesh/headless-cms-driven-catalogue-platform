@@ -1,1 +1,1 @@
-# Headless-CMS-Driven-Catalogue-Platform
+# Headless CMS Driven Catalogue Platform
