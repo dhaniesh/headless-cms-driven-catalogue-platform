@@ -1,5 +1,5 @@
-export const catalogueQuery = (category: string) => `query {
-    productCollection(where: {category_contains: "${category}"}){
+export const catalogueQuery = (category: string | null) => `query {
+    productCollection(where: {category_contains:${category ? `"${category}"` : '""'}}){
         items{
             title
             description
