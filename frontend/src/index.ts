@@ -2,8 +2,27 @@ import { serve } from "bun";
 import index from "./index.html";
 
 const server = serve({
+  port: 3001,
   routes: {
-    // Serve index.html for all unmatched routes.
+    // Proxy API requests to backend
+    "/category/": {
+      GET: async (req) => {
+        const url = new URL(req.url);
+        const backendUrl = `http://localhost:3000${url.pathname}`;
+        const response = await fetch(backendUrl);
+        return response;
+      }
+    },
+    "/catalogue/": {
+      GET: async (req) => {
+        const url = new URL(req.url);
+        const backendUrl = `http://localhost:3000${url.pathname}${url.search}`;
+        const response = await fetch(backendUrl);
+        return response;
+      }
+    },
+
+    // Serve index.html for all other routes.
     "/*": index,
 
     "/api/hello": {
