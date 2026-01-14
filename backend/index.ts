@@ -37,7 +37,7 @@ app.get("/catalogue/", async (req: Request, res: Response) => {
         const response = await fetch(contentful_base_url, {
             method: "POST",
             headers: contentful_header,
-            body: JSON.stringify({ query: catalogueQuery(String(category)) })
+            body: JSON.stringify({ query: catalogueQuery(category? String(category) : null) })
         })
 
         if (!response.ok) {
