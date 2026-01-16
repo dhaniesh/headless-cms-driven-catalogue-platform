@@ -1,9 +1,17 @@
 import express, { Request, Response } from "express";
+import { rateLimit } from "express-rate-limit"
 import "dotenv/config"
 import { catalogueQuery, category_query } from "./queries";
 import { categoryCollectionSchema, productCollectionSchema } from "./types";
 
+const rateLimiter = rateLimit({
+    windowMs: 1000 * 60,
+    limit: 100
+})
+
 const app = express();
+app.use(rateLimiter)
+
 const PORT = 3000;
 const contentful_base_url = `https://graphql.contentful.com/content/v1/spaces/${process.env.CF_SPACE_ID}/environments/${process.env.CF_ENV_ID}`;
 const contentful_header = {
@@ -38,7 +46,7 @@ app.get("/catalogue/", async (req: Request, res: Response) => {
         const response = await fetch(contentful_base_url, {
             method: "POST",
             headers: contentful_header,
-            body: JSON.stringify({ query: catalogueQuery(category? String(category) : null) })
+            body: JSON.stringify({ query: catalogueQuery(category ? String(category) : null) })
         })
 
         if (!response.ok) {
