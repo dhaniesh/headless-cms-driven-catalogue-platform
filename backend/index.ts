@@ -23,7 +23,8 @@ app.get("/category/", async (req: Request, res: Response) => {
 
         const result = categoryCollectionSchema.parse(await response.json())
         const data = result.data.categoryCollection.items
-        res.json(data.map((item) => item.category))
+        const uniqueItems = [...new Set(data.map((item) => item.category))]
+        res.json(uniqueItems)
 
     } catch (error) {
         console.error('Error fetching categories:', error);
